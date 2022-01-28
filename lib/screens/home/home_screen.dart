@@ -1,10 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-import 'package:realstate_app1/componenets/app_button.dart';
-import 'package:realstate_app1/constants.dart';
-import 'package:realstate_app1/models/estate.dart';
+import '../../componenets/app_button.dart';
+import '../../componenets/buttom_bar.dart';
+import '../../constants.dart';
+import '../../models/estate.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -53,7 +52,7 @@ class HomeScreen extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        child: ButtonBar(
+        child: AppButtonBar(
           onGoToPage: () {},
         ),
       ),
@@ -244,71 +243,6 @@ class HomeScreen extends StatelessWidget {
         const Spacer(),
         const Icon(Icons.notifications_none)
       ],
-    );
-  }
-}
-
-class ButtonBar extends StatefulWidget {
-  var selectedIndex = 0;
-  var pages = [
-    Icons.home,
-    Icons.favorite_border,
-    Icons.message_rounded,
-    Icons.settings,
-  ];
-  final VoidCallback onGoToPage;
-  ButtonBar({
-    Key? key,
-    required this.onGoToPage,
-  }) : super(key: key);
-
-  @override
-  _ButtonBarState createState() => _ButtonBarState();
-}
-
-class _ButtonBarState extends State<ButtonBar> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: widget.pages.asMap().entries.map((e) {
-        final isSelected = e.key == widget.selectedIndex;
-        return InkWell(
-          onTap: () {
-            setState(() {
-              widget.selectedIndex = e.key;
-            });
-            widget.onGoToPage();
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            width: 50,
-            height: 50,
-            child: Column(
-              children: [
-                Icon(
-                  e.value,
-                  color:
-                      isSelected ? Colors.white : Colors.white.withOpacity(0.3),
-                  size: 30,
-                ),
-                const SizedBox(height: 5),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  height: 5,
-                  width: 5,
-                  decoration: BoxDecoration(
-                    color: isSelected ? Colors.amber : Colors.transparent,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      }).toList(),
     );
   }
 }
