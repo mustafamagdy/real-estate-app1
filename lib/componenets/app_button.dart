@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+
 import 'package:realstate_app1/constants.dart';
 
 class AppButton extends StatelessWidget {
   final String? text;
   final IconData? icon;
   final Color color;
+  final Color? borderColor;
   final bool shallow;
   final VoidCallback onPress;
+  final double height;
+  final double borderRadius;
   const AppButton({
     Key? key,
     this.text,
     this.icon,
+    this.borderColor,
+    this.shallow = false,
+    this.height = 30,
+    this.borderRadius = 5,
     required this.color,
     required this.onPress,
-    this.shallow = false,
   }) : super(key: key);
 
   @override
@@ -33,15 +40,15 @@ class AppButton extends StatelessWidget {
       splashColor: color,
       onTap: onPress,
       child: Container(
-        height: text == null ? 55 : 30,
-        padding: text != null ? EdgeInsets.symmetric(horizontal: 10) : null,
+        height: height,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-            color: shallow ? Colors.white : color,
+            color: shallow ? Colors.white : borderColor ?? color,
             border: Border.all(
-              color: color,
+              color: borderColor ?? color,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(5)),
+            borderRadius: BorderRadius.circular(borderRadius)),
         child: Center(child: child),
       ),
     );

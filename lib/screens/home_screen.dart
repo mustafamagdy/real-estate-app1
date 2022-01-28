@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:realstate_app1/componenets/search_field.dart';
+import 'package:realstate_app1/screens/category_screen.dart';
 
 import '../../componenets/app_button.dart';
 import '../../componenets/buttom_bar.dart';
@@ -11,12 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    var categories = {
-      'Resort': 'assets/images/img1.png',
-      'Cotage': 'assets/images/img2.png',
-      'Office': 'assets/images/img3.png',
-      'Urban': 'assets/images/img4.png',
-    };
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -26,9 +23,9 @@ class HomeScreen extends StatelessWidget {
             children: [
               _buildUserInfoBar(),
               const SizedBox(height: kDefaultPadding),
-              _buildSearchBar(),
+              const SearchField(),
               const SizedBox(height: kDefaultPadding),
-              _buildCategoriesGrid(categories),
+              _buildCategoriesGrid(context),
               const SizedBox(height: kDefaultPadding),
               _propertyList(),
               const SizedBox(height: kDefaultPadding / 2),
@@ -146,7 +143,14 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  SizedBox _buildCategoriesGrid(Map<String, String> categories) {
+  SizedBox _buildCategoriesGrid(BuildContext context) {
+    var categories = {
+      'Resort': 'assets/images/img1.png',
+      'Cotage': 'assets/images/img2.png',
+      'Office': 'assets/images/img3.png',
+      'Urban': 'assets/images/img4.png',
+    };
+
     return SizedBox(
       height: 150,
       child: GridView(
@@ -159,62 +163,51 @@ class HomeScreen extends StatelessWidget {
         ),
         children: categories.entries
             .map(
-              (e) => Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.1),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
+              (e) => InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => const CategoryScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.1),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
+                    ),
                   ),
-                ),
-                // width: 200,
-                // height: 100,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          e.key,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                  // width: 200,
+                  // height: 100,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            e.key,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      child: Image.asset(
-                        e.value,
-                        width: 55,
-                        height: 55,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  ],
+                      ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        child: Image.asset(
+                          e.value,
+                          width: 55,
+                          height: 55,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             )
             .toList(),
-      ),
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: const TextField(
-        autofocus: false,
-        decoration: InputDecoration(
-          prefixIconColor: Colors.grey,
-          iconColor: Colors.grey,
-          hintText: 'Searcch ...',
-          hintStyle: TextStyle(color: Colors.grey),
-          prefixIcon: Icon(Icons.search),
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-        ),
       ),
     );
   }
