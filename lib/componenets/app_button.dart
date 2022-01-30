@@ -37,7 +37,7 @@ class AppButton extends StatelessWidget {
         : Icon(icon!, color: color);
 
     return InkWell(
-      splashColor: color,
+      splashColor: shallow ? Colors.white : borderColor ?? color,
       onTap: onPress,
       child: Container(
         height: height,

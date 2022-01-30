@@ -144,13 +144,6 @@ class HomeScreen extends StatelessWidget {
   }
 
   SizedBox _buildCategoriesGrid(BuildContext context) {
-    var categories = {
-      'Resort': 'assets/images/img1.png',
-      'Cotage': 'assets/images/img2.png',
-      'Office': 'assets/images/img3.png',
-      'Urban': 'assets/images/img4.png',
-    };
-
     return SizedBox(
       height: 150,
       child: GridView(
@@ -167,7 +160,7 @@ class HomeScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (ctx) => const CategoryScreen(),
+                      builder: (ctx) => CategoryScreen(property: properties[0]),
                     ),
                   );
                 },
