@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:realstate_app1/componenets/search_field.dart';
-import 'package:realstate_app1/screens/category_screen.dart';
 
+import '../componenets/search_field.dart';
+import '../screens/category_screen.dart';
+import '../screens/property_detail_screen.dart';
 import '../../componenets/app_button.dart';
 import '../../componenets/buttom_bar.dart';
 import '../../constants.dart';
@@ -27,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: kDefaultPadding),
               _buildCategoriesGrid(context),
               const SizedBox(height: kDefaultPadding),
-              _propertyList(),
+              _propertyList(context),
               const SizedBox(height: kDefaultPadding / 2),
               _buildBottomBar(size),
             ],
@@ -56,7 +57,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _propertyList() {
+  Widget _propertyList(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -98,14 +99,14 @@ class HomeScreen extends StatelessWidget {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
                             image: DecorationImage(
-                              image: AssetImage(property.image),
+                              image: AssetImage(property.mainImage),
                               fit: BoxFit.cover,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                offset: const Offset(5, 15),
-                                spreadRadius: 2,
+                                color: Colors.black.withOpacity(0.2),
+                                offset: const Offset(1, 10),
+                                spreadRadius: 5,
                                 blurRadius: 20,
                               )
                             ],
@@ -114,7 +115,21 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(height: 10),
                         AppButton(
                           color: kButtonColor,
-                          onPress: () {},
+                          textStyle: const TextStyle(
+                            color: kTextColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          onPress: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) {
+                                  return PropertyDetailScreen(
+                                    property: property,
+                                  );
+                                },
+                              ),
+                            );
+                          },
                           text: 'FOR SALE',
                         ),
                         const SizedBox(height: 10),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:realstate_app1/componenets/app_button.dart';
-import 'package:realstate_app1/componenets/search_field.dart';
-import 'package:realstate_app1/constants.dart';
-
+import '../screens/property_detail_screen.dart';
+import '../componenets/app_button.dart';
+import '../componenets/detail_screen_app_bar.dart';
+import '../componenets/search_field.dart';
+import '../constants.dart';
 import '../models/estate.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class CategoryScreen extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: _buildAppBar(context),
+      appBar: buildAppBar(context),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -37,9 +38,10 @@ class CategoryScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SearchField(),
+            const SizedBox(height: kDefaultPadding),
             _populaRow(),
             const SizedBox(height: kDefaultPadding),
-            _featuredItem(),
+            _featuredItem(context),
             const SizedBox(height: kDefaultPadding),
             const Text(
               'House Nearby',
@@ -72,11 +74,10 @@ class CategoryScreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      // color: Colors.amber,
                       child: Container(
                           margin: const EdgeInsets.all(5),
                           padding: const EdgeInsets.all(5),
-                          child: _nearbyItem(item)),
+                          child: _nearbyItem(item, context)),
                     );
                   },
                 ),
@@ -88,67 +89,80 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 
-  Widget _nearbyItem(Estate item) {
+  Widget _nearbyItem(Estate item, BuildContext context) {
     const itemHeight = 90.0;
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) {
+              return PropertyDetailScreen(
+                property: item,
+              );
+            },
           ),
-          child: Image.asset(
-            item.image,
-            width: itemHeight,
-            height: itemHeight,
-            fit: BoxFit.cover,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Container(
-            height: itemHeight,
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                Text(
-                  item.description,
-                  style: const TextStyle(fontWeight: FontWeight.w200),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      item.price,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.star, color: Colors.amber),
-                    const SizedBox(width: 5),
-                    Text(
-                      property.rating.toStringAsFixed(1),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+        );
+      },
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+            child: Image.asset(
+              item.mainImage,
+              width: itemHeight,
+              height: itemHeight,
+              fit: BoxFit.cover,
             ),
           ),
-        ),
-      ],
+          const SizedBox(width: 10),
+          Expanded(
+            child: Container(
+              height: itemHeight,
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    item.description,
+                    style: const TextStyle(fontWeight: FontWeight.w200),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        item.price,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const Spacer(),
+                      const Icon(Icons.star, color: Colors.amber),
+                      const SizedBox(width: 5),
+                      Text(
+                        item.rating.toStringAsFixed(1),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -174,7 +188,7 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 
-  Widget _featuredItem() {
+  Widget _featuredItem(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(kDefaultPadding),
       decoration: BoxDecoration(
@@ -183,9 +197,9 @@ class CategoryScreen extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            offset: const Offset(0, 5),
+            offset: const Offset(1, 5),
             spreadRadius: 1,
-            blurRadius: 20,
+            blurRadius: 10,
           )
         ],
       ),
@@ -193,17 +207,17 @@ class CategoryScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 180,
+            height: 160,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
-              image: const DecorationImage(
-                image: AssetImage('assets/images/img3.png'),
+              image: DecorationImage(
+                image: AssetImage(property.mainImage),
                 fit: BoxFit.cover,
               ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
-                  offset: const Offset(5, 15),
+                  offset: const Offset(5, 10),
                   spreadRadius: 2,
                   blurRadius: 10,
                 )
@@ -245,7 +259,22 @@ class CategoryScreen extends StatelessWidget {
                   borderRadius: 10,
                   height: 50,
                   color: kButtonColor,
-                  onPress: () {},
+                  textStyle: const TextStyle(
+                    color: kTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  onPress: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) {
+                          return PropertyDetailScreen(
+                            property: property,
+                          );
+                        },
+                      ),
+                    );
+                  },
                   text: 'DETAIL',
                 ),
               ),
@@ -261,29 +290,6 @@ class CategoryScreen extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      leading: InkWell(
-        onTap: () {
-          Navigator.of(context).pop();
-        },
-        child: const Icon(
-          Icons.arrow_back_ios,
-          color: kTextColor,
-        ),
-      ),
-      title: const Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          'House',
-          style: TextStyle(fontWeight: FontWeight.bold, color: kTextColor),
-        ),
       ),
     );
   }

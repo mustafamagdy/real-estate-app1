@@ -10,17 +10,21 @@ class AppButton extends StatelessWidget {
   final bool shallow;
   final VoidCallback onPress;
   final double height;
+  final double? width;
   final double borderRadius;
+  final TextStyle? textStyle;
   const AppButton({
     Key? key,
     this.text,
     this.icon,
+    required this.color,
     this.borderColor,
     this.shallow = false,
-    this.height = 30,
-    this.borderRadius = 5,
-    required this.color,
     required this.onPress,
+    this.height = 30,
+    this.width,
+    this.borderRadius = 5,
+    this.textStyle,
   }) : super(key: key);
 
   @override
@@ -28,11 +32,12 @@ class AppButton extends StatelessWidget {
     var child = text != null
         ? Text(
             text!,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: kTextColor,
-            ),
+            style: textStyle ??
+                TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
           )
         : Icon(icon!, color: color);
 
@@ -41,6 +46,7 @@ class AppButton extends StatelessWidget {
       onTap: onPress,
       child: Container(
         height: height,
+        width: width,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
             color: shallow ? Colors.white : borderColor ?? color,
