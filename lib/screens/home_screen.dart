@@ -90,14 +90,13 @@ class HomeScreen extends StatelessWidget {
                   elevation: 1,
                   shadowColor: Colors.white38,
                   child: Container(
-                    margin: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(kDefaultPadding / 2),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 200,
-                          height: 200,
-                          padding: const EdgeInsets.all(5),
+                          width: 180,
+                          height: 180,
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
@@ -115,7 +114,7 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: kDefaultPadding),
                         AppButton(
                           color: kButtonColor,
                           textStyle: const TextStyle(
@@ -135,17 +134,18 @@ class HomeScreen extends StatelessWidget {
                           },
                           text: 'FOR SALE',
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: kDefaultPadding / 2),
                         Text(
                           property.price,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: kDefaultPadding / 2),
                         Text(
                           property.description,
                           style: const TextStyle(
+                            color: kTextLightColor,
                             fontSize: 10,
                           ),
                         ),
