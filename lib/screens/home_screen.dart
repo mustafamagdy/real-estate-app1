@@ -18,20 +18,23 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildUserInfoBar(),
-              const SizedBox(height: kDefaultPadding),
-              const SearchField(),
-              const SizedBox(height: kDefaultPadding),
-              _buildCategoriesGrid(context),
-              const SizedBox(height: kDefaultPadding),
-              _propertyList(context),
-              const SizedBox(height: kDefaultPadding / 2),
-              _buildBottomBar(size),
-            ],
+          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: kDefaultPadding / 2),
+                _buildUserInfoBar(),
+                const SizedBox(height: kDefaultPadding),
+                const SearchField(),
+                const SizedBox(height: kDefaultPadding),
+                _buildCategoriesGrid(context),
+                const SizedBox(height: kDefaultPadding),
+                _propertyList(context),
+                const SizedBox(height: kDefaultPadding),
+                _buildBottomBar(size),
+              ],
+            ),
           ),
         ),
       ),
@@ -70,7 +73,7 @@ class HomeScreen extends StatelessWidget {
         ),
         const SizedBox(height: kDefaultPadding),
         SizedBox(
-          height: 300,
+          height: 320,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: properties.length,
@@ -92,8 +95,8 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 160,
-                          height: 160,
+                          width: 200,
+                          height: 200,
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             borderRadius:
